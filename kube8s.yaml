@@ -1,6 +1,6 @@
 ---
 - name: Install kuberenetes packages on all hosts
-  hosts: template
+  hosts: kube_master,kube_workers
   tasks:
     - name: Copy kubernetes repo file to servers
       copy:
@@ -25,9 +25,9 @@
     - name: Installing kubeadm, kubelet and kubectl
       package:
         name: 
-          - kubelet
-          - kubeadm
-          - kubectl
+          - kubelet-1.19.7
+          - kubeadm-1.19.7
+          - kubectl-1.19.7
         state: present
         disable_excludes: kubernetes
 

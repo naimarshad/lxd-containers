@@ -1,6 +1,6 @@
 ---
 - name: Install docker on all hosts
-  hosts: template
+  hosts: kube_master,kube_workers
   tasks:
     - name: Install yum utils
       yum:

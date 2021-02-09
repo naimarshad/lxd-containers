@@ -1,0 +1,9 @@
+---
+- name: update installed packages
+  hosts: kube_master,kube_workers
+  tasks:
+
+    - name: update installed packages
+      yum:
+        name: '*'
+        state: latest
