@@ -26,11 +26,18 @@ devices:
     path: /dev/kmsg
     source: /dev/kmsg
     type: disk
+  aadisable4:
+    path: /dev/kmsg
+    source: /dev/kmsg
+    type: disk
   eth0:
     name: eth0
     network: lxdbr0
     type: nic
-name: kubernetes
-used_by:
-- /1.0/instances/kube-master
+  root:
+    path: /
+    pool: default
+    type: disk
+name: k8s
+used_by: []
 

@@ -55,7 +55,7 @@ Once the containers are ready check them they are created
 
 ````
 
-Launch the containers 
+Launch the containers
 
 `lxc start kube-master kube-w01 kube-w02`
 
@@ -238,6 +238,10 @@ We have succefully installed the docker & the binaries to create kubernetes clus
 Let's exec into kube-master container & boot strap the cluster.
 
 `lxc exec kube-master bash`
+
+`echo 1 > /proc/sys/net/bridge/bridge-nf-call-iptables`
+
+Make sure you run thie above command on all nodes
 
 `kubeadm init --pod-network-cidr=10.244.0.0/16 `
 
