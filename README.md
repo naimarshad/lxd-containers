@@ -12,7 +12,7 @@ I am using Neon User (Ubuntu 20-04) for this purpose. First install lxd runtime 
 
 Initialize the container runtime
 
-* `lxd init`
+* `sudo lxd init`
 
 #### Provide default option for all the questions but make sure you choose storage backend as dir.
 
@@ -65,7 +65,7 @@ Exec into kube-master container by
 
 and install openssh server
 
-`yum install openssh-server-y `
+`yum install openssh-server -y `
 
 `systemctl enable sshd && systemctl start sshd`
 
