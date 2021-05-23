@@ -1,11 +1,20 @@
 ---
 - name: Install kuberenetes packages on all hosts
-  hosts: kube_master,kube_workers
+  hosts: all
   tasks:
-    - name: Copy kubernetes repo file to servers
-      copy:
-        src: ./kubernetes.repo
-        dest: /etc/yum.repos.d/
+
+    - name: add apt signing key for kubernetes (1/4)
+      apt_key:
+        url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+        state: present
+
+    - name: adding apt repository for kubernetes (2/4)
+      apt_repository:
+        repo: deb http://packages.cloud.google.com/apt/ kubernetes-xenial main
+        state: present
+      register: kubernetes_repository
+      retries: 10
+      until: kubernetes_repository is success
 
     - name: Copy k8s.conf file to servers
       copy:
@@ -25,12 +34,11 @@
     - name: Installing kubeadm, kubelet and kubectl
       package:
         name: 
-          - kubelet-1.19.11
-          - kubeadm-1.19.11
-          - kubectl-1.19.11
-        state: present
-        disable_excludes: kubernetes
-
+          - kubelet 
+          - kubeadm 
+          - kubectl
+        state: latest
+        
     - name: Restart & enable kubelet service
       service:
         name: kubelet
@@ -42,5 +50,4 @@
         name: docker
         state: restarted
         enabled: yes
-
 
