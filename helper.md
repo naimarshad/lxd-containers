@@ -19,4 +19,4 @@ kubeadm join 172.25.25.83:6443 --token ekwimt.bt1na5xf49iyv2ra \
     
 If for ***some reason kube-proxy*** doesn't start on ubuntu20.04 host vm as in my case. The below command fixed my issue.
 
-sudo sysctl -w net/netfilter/nf_conntrack_max=524288 <<--- This value depends, main which you will get from the logs of the kube-proxy pod which doesn't start.
+sudo sysctl -w net/netfilter/nf_conntrack_max=131072 <<--- This value depends, main which you will get from the logs of the kube-proxy pod which doesn't start.
