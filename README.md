@@ -8,7 +8,7 @@ I am using Neon User (Ubuntu 20-04) for this purpose. First install lxd runtime 
 
 * `sudo snap install lxd`
 * `sudo snap start lxd`
-* `sudo snap enale lxd`
+* `sudo snap enable lxd`
 
 Initialize the container runtime
 
