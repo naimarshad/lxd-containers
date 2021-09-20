@@ -18,26 +18,22 @@ devices:
     path: /sys/module/apparmor/parameters/enabled
     source: /dev/null
     type: disk
-  aadisable2:
-    path: /dev/zfs
-    source: /dev/zfs
-    type: disk
   aadisable3:
     path: /dev/kmsg
     source: /dev/kmsg
     type: disk
   aadisable4:
-    path: /dev/kmsg
-    source: /dev/kmsg
+    path: /boot
+    source: /boot
     type: disk
   eth0:
     name: eth0
-    network: lxdbr0
+    nictype: bridged
+    parent: lxdbr0
     type: nic
   root:
     path: /
     pool: default
     type: disk
 name: k8s
-used_by: []
 
