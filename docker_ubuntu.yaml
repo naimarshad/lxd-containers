@@ -20,6 +20,6 @@
         state: present
 
     - name: Update apt and install docker-ce
-      apt: update_cache=yes name='docker-ce=5:19.03.15~3-0~ubuntu-bionic' state=present
+      apt: update_cache=yes name='docker-ce' state=present
 
 
