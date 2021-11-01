@@ -23,4 +23,5 @@ sudo sysctl -w net/netfilter/nf_conntrack_max=524288<<--- This value depends, ma
 
 
 
-Also we have to set nf_conntrack hashsize value to be persisted and add them in /etc/modprobe.d/conntrack.conf as **options nf_conntrack hashsize=131072** in order kube-proxy to work properly
+Also we have to set nf_conntrack hashsize value by 
+echo 65536 > /sys/module/nf_conntrack/parameters/hashsize # **Depending on value shown in error logs of kube-proxy container
