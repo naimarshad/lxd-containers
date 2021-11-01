@@ -24,7 +24,7 @@
 
     - name: Install Docker
       package:
-        name: docker-ce-19.03.12
+        name: docker-ce
         state: present
       become: yes
 
