@@ -1,6 +1,6 @@
 # Provision Kubernetes cluster with lxc containers
 
-####* This repo contains the necessary files to provision kuberenets cluster I will try step by step approach for this.
+#### This repo contains the necessary files to provision kuberenets cluster I will try step by step approach for this.
 
 Note: We need ansible to complete this cluster creation
 
