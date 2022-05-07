@@ -17,6 +17,11 @@
         name: lvm2
         state: present
 
+    - name: Install TC Package
+      yum:
+        name: iproute-tc
+        state: present
+
     - name: Add Docker repo
       get_url:
         url: https://download.docker.com/linux/centos/docker-ce.repo

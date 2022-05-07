@@ -22,6 +22,10 @@ If for **some reason kube-proxy** doesn't start on ubuntu20.04 host vm as in my 
 sudo sysctl -w net/netfilter/nf_conntrack_max=524288<<--- This value depends, main which you will get from the logs of the kube-proxy pod which doesn't start.
 
 
-
 Also we have to set nf_conntrack hashsize value by 
 echo 65536 > /sys/module/nf_conntrack/parameters/hashsize # **Depending on value shown in error logs of kube-proxy container
+
+*** On alamalinux 8, when trying to load module inside lxd containers it complains. We have to manaully insert the modules like below.
+
+lxc config edit container_name
+linux.kernel_modules: xt_conntrack,overlay, br_netfilter

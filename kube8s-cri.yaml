@@ -1,0 +1,64 @@
+---
+- name: Install kuberenetes packages on all hosts
+  hosts: kube_master,kube_workers
+  tasks:
+
+    - name: Copy kubernetes repo file to servers
+      copy:
+        src: ./containerd.conf
+        dest: /etc/modules-load.d/
+    
+    - name: Copy k8s.conf file to servers
+      copy:
+        src: ./99-kubernetes-cri.conf
+        dest: /etc/sysctl.d/
+
+    - name: Apply kernel settings
+      shell: sysctl --system
+
+    - name: Copy kubernetes repo file to servers
+      copy:
+        src: ./kubernetes.repo
+        dest: /etc/yum.repos.d/
+
+    - name: Copy cri-o repo file to servers
+      copy:
+        src: ./stable.repo
+        dest: /etc/yum.repos.d/
+
+    - name: Copy cri-o repo file to servers
+      copy:
+        src: ./stable-crio-1.23.repo
+        dest: /etc/yum.repos.d/
+
+    - name: Installing Crio & Crio Tools
+      package:
+        name: 
+          - cri-o
+          - cri-tools
+
+    - name: Installing kubeadm, kubelet and kubectl
+      package:
+        name: 
+          - kubelet
+          - kubeadm
+          - kubectl
+          # - kubelet-1.23.6-0
+          # - kubeadm-1.23.6-0
+          # - kubectl-1.23.6-0
+        state: present
+        disable_excludes: kubernetes
+
+    - name: Restart & enable crio service
+      service:
+        name: crio
+        state: restarted
+        enabled: yes
+
+    - name: Restart & enable kubelet service
+      service:
+        name: kubelet
+        state: restarted
+        enabled: yes
+
+
