@@ -1,14 +1,17 @@
 config:
   boot.autostart: "true"
+  limits.cpu: "2"
+  limits.memory: 3GB
   linux.kernel_modules: ip_vs,ip_vs_rr,ip_vs_wrr,ip_vs_sh,ip_tables,ip6_tables,netlink_diag,nf_nat,overlay,br_netfilter
   raw.lxc: |
     lxc.apparmor.profile=unconfined
     lxc.mount.auto=proc:rw sys:rw cgroup:rw
     lxc.cgroup.devices.allow=a
-    lxc.cap.drop=
+    lxc.mount.auto=proc:rw  sys:rw
+    lxc.mount.entry = /dev/kmsg dev/kmsg none defaults,bind,create=file
   security.nesting: "true"
   security.privileged: "true"
-description: ""
+description: Default LXD Profile
 devices:
   aadisable:
     path: /sys/module/nf_conntrack/parameters/hashsize
@@ -17,10 +20,6 @@ devices:
   aadisable1:
     path: /sys/module/apparmor/parameters/enabled
     source: /dev/null
-    type: disk
-  aadisable3:
-    path: /dev/kmsg
-    source: /dev/kmsg
     type: disk
   aadisable4:
     path: /boot
@@ -35,5 +34,4 @@ devices:
     path: /
     pool: default
     type: disk
-name: k8s
-
+name: default
