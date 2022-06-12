@@ -27,3 +27,7 @@ echo 65536 > /sys/module/nf_conntrack/parameters/hashsize # **Depending on value
 
 lxc config edit container_name
 linux.kernel_modules: xt_conntrack,overlay, br_netfilter
+
+If we are running on an OS where kernel is using cgroupv2 we have to run additional command
+
+**lxc config device add "kube-master" "kmsg" unix-char source="/dev/kmsg" path="/dev/kmsg"
