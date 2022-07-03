@@ -1,0 +1,83 @@
+---
+- name: Install kuberenetes packages on all hosts
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Copy kubernetes repo file to servers
+      copy:
+        src: ./kubernetes.repo
+        dest: /etc/yum.repos.d/
+
+    - name: Add Docker repo
+      get_url:
+        url: https://download.docker.com/linux/centos/docker-ce.repo
+        dest: /etc/yum.repos.d/docker-ce.repo        
+
+    - name: Copy k8s.conf file to servers
+      copy:
+        src: ./k8s.conf
+        dest: /etc/sysctl.d/
+
+    - name: Install required OS pacakages
+      yum:
+        name: 
+          - iproute-tc
+          - lvm2
+          - device-mapper-persistent-data
+          - yum-utils
+          #- https://github.com/Mirantis/cri-dockerd/releases/download/v0.2.2/cri-dockerd-0.2.2.20220610195206.0737013-0.el8.x86_64.rpm
+          #- https://github.com/Mirantis/cri-dockerd/releases/download/v0.2.1/cri-dockerd-0.2.1.20220525024524.cb92d7b-0.el7.x86_64.rpm
+        state: present
+
+    - name: Install Docker
+      package:
+        name: docker-ce
+        state: present
+
+    - name: Copy docker custom daeom file to servers
+      copy:
+        src: ./daemon.json
+        dest: /etc/docker/
+
+
+    - name: Restart & enable docker service
+      service:
+        name: docker
+        state: restarted
+        enabled: yes
+
+    # - name: Installing kubeadm, kubelet and kubectl
+    #   yum:
+    #     name: 
+    #       - kubelet-1.23.7
+    #       - kubeadm-1.23.7
+    #       - kubectl-1.23.7
+    #     state: present
+    #     disable_excludes: kubernetes
+
+    # - name: Restart & enable kubelet service
+    #   service:
+    #     name: kubelet
+    #     state: restarted
+    #     enabled: yes
+
+    # - name: Restart & enable cri-docker service
+    #   service:
+    #     name: cri-docker.service
+    #     state: restarted
+    #     enabled: yes
+
+    # - name: Restart & enable cri-docker socket
+    #   service:
+    #     name: cri-docker.socket
+    #     state: restarted
+    #     enabled: yes        
+
+    - name: Restart & enable docker service
+      service:
+        name: docker
+        state: restarted
+        enabled: yes
+
+

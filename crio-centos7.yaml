@@ -36,16 +36,18 @@
         name: 
           - cri-o
           - cri-tools
+          - bash-completion
+          - vim
+          - wget
+          - epel-release
+          - iproute
 
     - name: Installing kubeadm, kubelet and kubectl
       package:
         name: 
-          - kubelet
-          - kubeadm
-          - kubectl
-          # - kubelet-1.23.6-0
-          # - kubeadm-1.23.6-0
-          # - kubectl-1.23.6-0
+          - kubelet-1.23.7
+          - kubeadm-1.23.7
+          - kubectl-1.23.7
         state: present
         disable_excludes: kubernetes
 

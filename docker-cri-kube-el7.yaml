@@ -1,0 +1,88 @@
+---
+- name: Install docker on all hosts
+  hosts: kube_master
+  become: yes
+
+  tasks:
+    - name: Install yum utils
+      yum:
+        name: yum-utils
+        state: present
+
+    - name: Install device-mapper-persistent-data
+      yum:
+        name: device-mapper-persistent-data
+        state: present
+
+    - name: Install lvm2
+      yum:
+        name: lvm2
+        state: present
+
+    - name: Install TC Package
+      yum:
+        name: iproute
+        state: present
+
+    - name: Add Docker repo
+      get_url:
+        url: https://download.docker.com/linux/centos/docker-ce.repo
+        dest: /etc/yum.repos.d/docker-ce.repo
+
+    - name: Install cri-dockerd
+      yum:
+        name: https://github.com/Mirantis/cri-dockerd/releases/download/v0.2.1/cri-dockerd-0.2.1.20220525024524.cb92d7b-0.el7.x86_64.rpm
+        state: present
+
+    - name: Install Docker
+      package:
+        name: docker-ce
+        state: present
+
+    - name: Copy docker custom daeom file to servers
+      copy:
+        src: ./daemon.json
+        dest: /etc/docker/
+
+    - name: Start Docker service
+      service:
+        name: docker
+        state: restarted
+        enabled: yes
+
+    - name: Start cri-dockerd service
+      service:
+        name: cri-docker.service
+        state: restarted
+        enabled: yes
+
+    - name: Start cri-dockerd socket
+      service:
+        name: cri-docker.socket
+        state: restarted
+        enabled: yes
+
+    - name: Copy kubernetes repo file to servers
+      copy:
+        src: ./kubernetes.repo
+        dest: /etc/yum.repos.d/
+
+    - name: Copy k8s.conf file to servers
+      copy:
+        src: ./k8s.conf
+        dest: /etc/sysctl.d/
+
+    - name: Installing kubeadm, kubelet and kubectl
+      package:
+        name: 
+          - kubelet-1.23.7
+          - kubeadm-1.23.7
+          - kubectl-1.23.7
+        state: present
+        disable_excludes: kubernetes
+
+    - name: Restart & enable kubelet service
+      service:
+        name: kubelet
+        state: restarted
+        enabled: yes                
